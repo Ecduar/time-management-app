@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Categorías</title>
+</head>
+<body>
+    <h1>Lista de Categorías</h1>
+    <ul>
+        <% categories.forEach(category => { %>
+            <li>
+                <strong><%= category.name %></strong> - <%= category.description %>
+                <a href="/categories/<%= category.id %>">Ver detalles</a>
+            </li>
+        <% }) %>
+    </ul>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

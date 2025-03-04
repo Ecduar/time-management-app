@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Actividades</title>
+</head>
+<body>
+    <h1>Lista de Actividades</h1>
+    <ul>
+        <% activities.forEach(activity => { %>
+            <li>
+                <strong><%= activity.name %></strong> - <%= activity.description %>
+                <a href="/activities/<%= activity.id %>">Ver detalles</a>
+            </li>
+        <% }) %>
+    </ul>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

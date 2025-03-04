@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registros de Actividades</title>
+</head>
+<body>
+    <h1>Registros de Actividades</h1>
+    <ul>
+        <% activityLogs.forEach(log => { %>
+            <li>
+                <strong><%= log.activityName %></strong> - 
+                Inicio: <%= log.startTime %>, Fin: <%= log.endTime %>
+                <a href="/activity-logs/<%= log.id %>">Ver detalles</a>
+            </li>
+        <% }) %>
+    </ul>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>

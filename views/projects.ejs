@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proyectos</title>
+</head>
+<body>
+    <h1>Lista de Proyectos</h1>
+    <ul>
+        <% projects.forEach(project => { %>
+            <li>
+                <strong><%= project.name %></strong> - <%= project.description %>
+                <a href="/projects/<%= project.id %>">Ver detalles</a>
+            </li>
+        <% }) %>
+    </ul>
+    <a href="/">Volver al inicio</a>
+</body>
+</html>
