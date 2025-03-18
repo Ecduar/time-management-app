@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/UserController');
 
-// Definir rutas para usuarios
+// Rutas para usuarios
 router.get('/', UserController.listUsers);
-router.post('/', UserController.addUser);
+router.get('/create', UserController.createUserForm);
+router.post('/create', UserController.createUser);
 router.get('/:id', UserController.getUser);
-router.put('/:id', UserController.updateUser);
-router.delete('/:id', UserController.deleteUser);
+router.get('/:id/edit', UserController.editUserForm);
+router.post('/:id/edit', UserController.updateUser);
+router.post('/:id/delete', UserController.deleteUser);
 
 module.exports = router;
