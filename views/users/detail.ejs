@@ -1,0 +1,9 @@
+<% include ../layouts/main %>
+<h2>Detalles del Usuario</h2>
+<p><strong>ID:</strong> <%= user.id %></p>
+<p><strong>Nombre:</strong> <%= user.name %></p>
+<p><strong>Email:</strong> <%= user.email %></p>
+<a href="/users/<%= user.id %>/edit">Editar</a>
+<form action="/users/<%= user.id %>/delete" method="POST" style="display:inline;">
+    <button type="submit">Eliminar</button>
+</form>

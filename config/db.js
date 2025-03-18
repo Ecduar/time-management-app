@@ -2,7 +2,7 @@ const mysql = require('mysql2');
 require('dotenv').config();
 //acá está la conexion a la base de datos:
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
+    host: 'localhost',
     user: 'ecduar',
     password: 'e29718294',
     database: 'time_management'
