@@ -1,41 +1,81 @@
+const db = require('../config/db');
+
 class ActivityController {
-    static activities = [];
-
+    // Listar todas las actividades
     static listActivities(req, res) {
-        res.render('activities', { activities: ActivityController.activities });
+        db.query('SELECT * FROM activities', (err, results) => {
+            if (err) {
+                res.status(500).send('Error fetching activities');
+                return;
+            }
+            res.render('activities/list', { activities: results });
+        });
     }
 
-    static addActivity(req, res) {
-        const activity = req.body;
-        ActivityController.activities.push(activity);
-        res.status(201).send('Activity added');
+    // Mostrar formulario para crear una actividad
+    static createActivityForm(req, res) {
+        res.render('activities/create');
     }
 
+    // Crear una nueva actividad
+    static createActivity(req, res) {
+        const { name, description, category_id } = req.body;
+        db.query('INSERT INTO activities (name, description, category_id) VALUES (?, ?, ?)', [name, description, category_id], (err, results) => {
+            if (err) {
+                res.status(500).send('Error creating activity');
+                return;
+            }
+            res.redirect('/activities');
+        });
+    }
+
+    // Mostrar detalles de una actividad
     static getActivity(req, res) {
         const activityId = req.params.id;
-        const activity = ActivityController.activities.find(a => a.id === activityId);
-        if (activity) {
-            res.render('activityDetail', { activity });
-        } else {
-            res.status(404).send('Activity not found');
-        }
+        db.query('SELECT * FROM activities WHERE id = ?', [activityId], (err, results) => {
+            if (err || results.length === 0) {
+                res.status(404).send('Activity not found');
+                return;
+            }
+            res.render('activities/detail', { activity: results[0] });
+        });
     }
 
+    // Mostrar formulario para editar una actividad
+    static editActivityForm(req, res) {
+        const activityId = req.params.id;
+        db.query('SELECT * FROM activities WHERE id = ?', [activityId], (err, results) => {
+            if (err || results.length === 0) {
+                res.status(404).send('Activity not found');
+                return;
+            }
+            res.render('activities/edit', { activity: results[0] });
+        });
+    }
+
+    // Actualizar una actividad
     static updateActivity(req, res) {
         const activityId = req.params.id;
-        const activityIndex = ActivityController.activities.findIndex(a => a.id === activityId);
-        if (activityIndex !== -1) {
-            ActivityController.activities[activityIndex] = { ...ActivityController.activities[activityIndex], ...req.body };
-            res.send('Activity updated');
-        } else {
-            res.status(404).send('Activity not found');
-        }
+        const { name, description, category_id } = req.body;
+        db.query('UPDATE activities SET name = ?, description = ?, category_id = ? WHERE id = ?', [name, description, category_id, activityId], (err, results) => {
+            if (err) {
+                res.status(500).send('Error updating activity');
+                return;
+            }
+            res.redirect(`/activities/${activityId}`);
+        });
     }
 
+    // Eliminar una actividad
     static deleteActivity(req, res) {
         const activityId = req.params.id;
-        ActivityController.activities = ActivityController.activities.filter(a => a.id !== activityId);
-        res.send('Activity deleted');
+        db.query('DELETE FROM activities WHERE id = ?', [activityId], (err, results) => {
+            if (err) {
+                res.status(500).send('Error deleting activity');
+                return;
+            }
+            res.redirect('/activities');
+        });
     }
 }
 
